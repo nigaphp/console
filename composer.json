@@ -1,0 +1,19 @@
+{
+    "name": "nigatedev/console",
+    "description": "Nigatedev framework (CLI) console application",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nigatedev\\Framework\\Console\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Abass Ben Cheik",
+            "email": "cheikabassben@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
