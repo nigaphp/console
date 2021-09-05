@@ -25,11 +25,6 @@ class ControllerMaker
     private string $className;
 
   /**
-  * @var string[] $constructor
-  */
-    private $constructor = [];
-
-  /**
   * @var string[] $error
   */
     private $error = [];
@@ -40,18 +35,22 @@ class ControllerMaker
     private $success = [];
 
   /**
-  * @var bool
-  */
-    private $injector = false;
-
-  /**
   * @var string
   */
     private $dirName;
 
-    public function __construct()
+  /**
+  * @var string
+  */
+    private $rootDir;
+
+    public function __construct($controller)
     {
-        $this->dirName = dirname(dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
+        $prefixDir = dirname(__DIR__, 5);
+        
+        $this->rootDir = str_replace("../", "", $prefixDir.$controller['root_dir']);
+        $this->dirName = str_replace("../", "/", $this->rootDir.$controller["dir"]);
+        
     }
 
   /**
@@ -62,15 +61,18 @@ class ControllerMaker
     public function makeController($className)
     {
         if ($this->isSafeClassName($className)) {
-            $this->make($this->constructor);
-            echo Colors::successTemp($this->success["cname"]);
+            if ($this->make($className)) {
+                echo Colors::successTemp($this->success["cname"]);
+            } else {
+                echo Colors::errorTemp($this->error["cname"]);
+            }
         } else {
             echo Colors::errorTemp($this->error["cname"]);
         }
     }
 
   /**
-  * Check to see if $className is safe
+  * Check to see if controller class name is safe
   *
   * @param string $className
   *
@@ -79,22 +81,21 @@ class ControllerMaker
     public function isSafeClassName($className)
     {
         $className = trim($className);
-
-        preg_match('/^[0-9]/', $className, $match);
+        preg_match('/^(\d)|(\d)$/', $className, $match);
         if ($match) {
-            $this->error["cname"] = "The class name shouldn't contains special chars, first letter can not be a number !";
+            $this->error["cname"] = "Controllers class name couldn't contains any special chars from the starting and must ended with the prefix 'Controller'!";
             return false;
         }
-        if (strlen($className) > 10 && substr($className, -10) === "Controller") {
-            $this->constructor["cname"] = $className;
+        if (preg_match("/(Controller)$/", $className)) {
             return true;
+        } else {
+            $this->error["cname"] = "All controllers class name must ended with 'Controller' prefix. ";
+            return false;
         }
-        $this->error["cname"] = "The class name must end with [Controller]. ";
-        return false;
     }
 
   /**
-  * Get Model controller
+  * Get model controller content
   *
   * @param string $model
   *
@@ -109,27 +110,33 @@ class ControllerMaker
   /**
   * Final controller class generator
   *
-  * @param string[] $controller
+  * @param string $cName   The controller to generate class name
   *
-  * @return void
+  * @return bool
   */
-    public function make($controller)
+    public function make($cName)
     {
-        $cName = $controller["cname"];
-        $cDir = $this->dirName."/src/Controller/";
-        $loaderFile = $this->dirName."/config/loader.php";
-
-        if (is_file("{$cDir}{$cName}.php")) {
-            die(Colors::erroTempr("Can't create an existence controller class ".$cName));
+        
+        $loaderFile = $this->rootDir."/config/loader.php";
+        
+         if (is_file("{$this->dirName}/{$cName}.php")) {
+            $this->error["cname"] = "Can't create an existence controller class ".$cName;
+            return false;
         }
-        if (is_dir($cDir) && is_file(__DIR__ ."/ControllerModel.php")) {
-            file_put_contents("{$cDir}{$cName}.php", str_replace(["ControllerModel", "index"], [$cName, $this->lowerAndReplace("Controller", "", $cName)], $this->getModel("/ControllerModel.php")));
-            fopen($this->dirName."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), "w+");
-            file_put_contents($this->dirName."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), $this->getModel("/TemplateModel.php"));
+        if (is_dir($this->dirName) && is_file(__DIR__ ."/ControllerModel.php")) {
+            file_put_contents("{$this->dirName}/{$cName}.php", str_replace(["ControllerModel", "index"], [$cName, $this->lowerAndReplace("Controller", "", $cName)], $this->getModel("/ControllerModel.php")));
+            fopen($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), "w+");
+            file_put_contents($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), $this->getModel("/TemplateModel.php"));
             $loader = str_replace("];", "  '/". $this->lowerAndReplace("Controller", "", $cName)."' => [\\App\\Controller\\". $cName."::class, '".$this->lowerAndReplace("Controller", "", $cName)."'],\n];", file_get_contents($loaderFile));
             file_put_contents($loaderFile, $loader);
-            $this->success["cname"] = $cName." controller was created successfully !";
+            $this->success["cname"] = "Your $cName was created successfully !";
+            return true;
+        } else {
+            $this->error["cname"] = "Can't find ".$this->dirName." directory";
+            return false;
         }
+            $this->error["cname"] = "Unknown error: when try to create a controller";
+        return false;
     }
     
     /**

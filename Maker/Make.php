@@ -28,9 +28,9 @@ class Make
    */
     public $arg;
    
-    public function __construct()
+    public function __construct($models)
     {
-        $this->controllerMaker = new ControllerMaker();
+        $this->controllerMaker = new ControllerMaker($models["controller"]);
     }
    
    /**
@@ -85,8 +85,8 @@ class Make
                 echo Colors::danger("N")." Canceled !";
             }
         } else {
-            $controller[2] = readline(Colors::temp("INFO", "Controller name E.g:", Colors::info('HomeController')));
-            $this->controllerMaker->makeController($controller[2]);
+            $controllerName = readline(Colors::temp("INFO", "Controller name E.g:", Colors::info('HomeController')));
+            $this->controllerMaker->makeController($controllerName);
         }
     }
 }

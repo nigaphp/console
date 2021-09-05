@@ -18,7 +18,7 @@ class Colors
 {
     
    /**
-    * Color with background 
+    * Color with background
     *
     * @param string $message
     *
@@ -29,21 +29,21 @@ class Colors
         $temp = "";
         
         switch ($type) {
-          case 'SUCCESS':
-            $temp = "\033[42m{$type}\033[0m {$subject} {$message}";
-            break;
-          case 'INFO':
-            $temp = "\033[46m{$type}\033[0m {$subject} {$message}";
-            break;
-          case 'WARNING':
-            $temp = "\033[43m{$type}\033[0m {$subject} {$message}";
-            break;
-          case 'ERROR':
-            $temp = "\033[41m{$type}\033[0m {$subject} {$message}";
-            break;
+            case 'SUCCESS':
+                $temp = "\033[42m{$type}\033[0m {$subject} {$message}";
+                break;
+            case 'INFO':
+                $temp = "\033[46m{$type}\033[0m {$subject} {$message}";
+                break;
+            case 'WARNING':
+                $temp = "\033[43m{$type}\033[0m {$subject} {$message}";
+                break;
+            case 'ERROR':
+                $temp = "\033[41m{$type}\033[0m {$subject} {$message}";
+                break;
           
-          default:
-            throw new ConsoleException(self::error("Invalid or undefined message type!"));
+            default:
+                throw new ConsoleException(self::error("Invalid or undefined message type!"));
             break;
         }
         
