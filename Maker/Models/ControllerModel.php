@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use Nigatedev\FrameworkBundle\Controller;
+use Nigatedev\FrameworkBundle\Controller\Controller;
 
 class ControllerModel extends Controller
 {
