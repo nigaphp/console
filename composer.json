@@ -8,6 +8,9 @@
             "Nigatedev\\Framework\\Console\\": ""
         }
     },
+    "bin": [
+        "niga"
+        ],
     "authors": [
         {
             "name": "Abass Ben Cheik",
