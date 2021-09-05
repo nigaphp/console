@@ -4,15 +4,12 @@
 *
 * (c) Abass Ben Cheik <abass@todaysdev.com>
 */
-namespace Nigatedev\Framework\Console\Maker\Model;
+namespace Nigatedev\Framework\Console\Maker\Maker;
 
-use Nigatedev\Framework\App;
 use Nigatedev\Framework\Console\Colors;
 
 /**
 * ControllerMaker
-*
-* @package Nigatedev\Framework\Maker\Controller
 *
 * @author Abass Ben Cheik <abass@todaysdev.com>
 */
@@ -103,7 +100,7 @@ class ControllerMaker
   */
     public function getModel($model)
     {
-        $model = file_get_contents(__DIR__ .$model);
+        $model = file_get_contents(dirname(__DIR__)."/Models/".$model);
         return $model;
     }
 
@@ -123,7 +120,7 @@ class ControllerMaker
             $this->error["cname"] = "Can't create an existence controller class ".$cName;
             return false;
         }
-        if (is_dir($this->dirName) && is_file(__DIR__ ."/ControllerModel.php")) {
+        if (is_dir($this->dirName) && is_file(dirname(__DIR__)."/Models/ControllerModel.php")) {
             file_put_contents("{$this->dirName}/{$cName}.php", str_replace(["ControllerModel", "index"], [$cName, $this->lowerAndReplace("Controller", "", $cName)], $this->getModel("/ControllerModel.php")));
             fopen($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), "w+");
             file_put_contents($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), $this->getModel("/TemplateModel.php"));

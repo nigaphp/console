@@ -8,7 +8,7 @@
  */
 namespace Nigatedev\Framework\Console\Maker;
 
-use Nigatedev\Framework\Console\Maker\Model\ControllerMaker;
+use Nigatedev\Framework\Console\Maker\Maker\ControllerMaker;
 use Nigatedev\Framework\Console\Colors;
 
 /**
