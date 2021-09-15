@@ -7,7 +7,7 @@
 namespace Nigatedev\Framework\Console\Maker\Maker;
 
 use Nigatedev\Framework\Console\Colors;
-
+use Nigatedev\FrameworkBundle\Application\Configuration as AppConfig;
 /**
 * ControllerMaker
 *
@@ -113,6 +113,20 @@ class ControllerMaker
   */
     public function make($cName)
     {
+        $defaultTemplate = AppConfig::getDefaultTemplateConfig();
+        
+        if (array_key_exists("default_template", $defaultTemplate)) {
+            $key = $defaultTemplate["default_template"];
+            if ($key === "diyan") {
+                $templateModel = "/DiyanModel.php";
+                $templateExtension = ".php";
+            } else {
+                $templateModel = "/TwigModel.php";
+                $templateExtension = ".twig";
+            }
+        } else {
+            die("Fatal: bad template configuration");
+        }
         
         $loaderFile = $this->rootDir."/config/loader.php";
         
@@ -122,8 +136,8 @@ class ControllerMaker
         }
         if (is_dir($this->dirName) && is_file(dirname(__DIR__)."/Models/ControllerModel.php")) {
             file_put_contents("{$this->dirName}/{$cName}.php", str_replace(["ControllerModel", "index"], [$cName, $this->lowerAndReplace("Controller", "", $cName)], $this->getModel("/ControllerModel.php")));
-            fopen($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), "w+");
-            file_put_contents($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", $cName.".php"), $this->getModel("/TemplateModel.php"));
+            fopen($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", "{$cName}{$templateExtension}"), "w+");
+            file_put_contents($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", "{$cName}{$templateExtension}"), $this->getModel($templateModel));
             $loader = str_replace("];", "  '/". $this->lowerAndReplace("Controller", "", $cName)."' => [\\App\\Controller\\". $cName."::class, '".$this->lowerAndReplace("Controller", "", $cName)."'],\n];", file_get_contents($loaderFile));
             file_put_contents($loaderFile, $loader);
             $this->success["cname"] = "Your $cName was created successfully !";
