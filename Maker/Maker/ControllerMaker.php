@@ -8,6 +8,7 @@ namespace Nigatedev\Framework\Console\Maker\Maker;
 
 use Nigatedev\Framework\Console\Colors;
 use Nigatedev\FrameworkBundle\Application\Configuration as AppConfig;
+
 /**
 * ControllerMaker
 *
@@ -47,7 +48,6 @@ class ControllerMaker
         
         $this->rootDir = str_replace("../", "", $prefixDir.$controller['root_dir']);
         $this->dirName = str_replace("../", "/", $this->rootDir.$controller["dir"]);
-        
     }
 
   /**
@@ -130,7 +130,7 @@ class ControllerMaker
         
         $loaderFile = $this->rootDir."/config/loader.php";
         
-         if (is_file("{$this->dirName}/{$cName}.php")) {
+        if (is_file("{$this->dirName}/{$cName}.php")) {
             $this->error["cname"] = "Can't create an existence controller class ".$cName;
             return false;
         }

@@ -19,6 +19,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "nigatedev/parser": "v1.0"
+        "nigatedev/parser": "^1.0"
     }
 }
