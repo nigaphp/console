@@ -19,23 +19,22 @@ use Nigatedev\Framework\Console\Maker\Make;
  *
  * @author Abass Ben Cheik <abass@todaysdev.com>
  */
- class Console {
+class Console
+{
      
-     public function __construct($cliApp)
-     { 
-         if (empty($cliApp)) {
-             throw new InvalidConsoleArgumentException("Invalid argument:");
-         }
+    public function __construct($cliApp)
+    {
+        if (empty($cliApp)) {
+            throw new InvalidConsoleArgumentException("Invalid argument:");
+        }
          
-         if(isset($cliApp[1])) {
-             if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $cliApp[1])) {
+        if (isset($cliApp[1])) {
+            if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $cliApp[1])) {
                 (new Make(
-
-                  ["controller" =>  Configuration::getAppConfig()["controller"]]
-    
-            ))->make($cliApp);
-             }
-         }
+                    ["controller" =>  Configuration::getAppConfig()["controller"]]
+                ))->make($cliApp);
+            }
+        }
         // exit;
-     }
- }
+    }
+}

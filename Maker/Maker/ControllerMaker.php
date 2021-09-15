@@ -59,9 +59,9 @@ class ControllerMaker
     {
         if ($this->isSafeClassName($className) && $this->make($className)) {
                return Colors::successTemp($this->success["cname"]);
-            } else {
-                return Colors::errorTemp($this->error["cname"]);
-            }
+        } else {
+            return Colors::errorTemp($this->error["cname"]);
+        }
     }
 
   /**
