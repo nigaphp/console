@@ -57,15 +57,11 @@ class ControllerMaker
   */
     public function makeController($className)
     {
-        if ($this->isSafeClassName($className)) {
-            if ($this->make($className)) {
-                echo Colors::successTemp($this->success["cname"]);
+        if ($this->isSafeClassName($className) && $this->make($className)) {
+               return Colors::successTemp($this->success["cname"]);
             } else {
-                echo Colors::errorTemp($this->error["cname"]);
+                return Colors::errorTemp($this->error["cname"]);
             }
-        } else {
-            echo Colors::errorTemp($this->error["cname"]);
-        }
     }
 
   /**
@@ -83,10 +79,10 @@ class ControllerMaker
             $this->error["cname"] = "Controllers class name couldn't contains any special chars from the starting and must ended with the prefix 'Controller'!";
             return false;
         }
-        if (preg_match("/(Controller)$/", $className)) {
+        if (preg_match("/^\w+(Controller)$/", $className)) {
             return true;
         } else {
-            $this->error["cname"] = "All controllers class name must ended with 'Controller' prefix. ";
+            $this->error["cname"] = "Bad controllers class name, Note: all controller must ended with 'Controller' prefix. ";
             return false;
         }
     }

@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 /*
  * This file is part of Nigatedev PHP framework package.
@@ -46,6 +45,9 @@ class Make
         if (is_array($this->arg) && isset($this->arg[1])) {
             switch ($this->arg[1]) {
                 case 'make:controller':
+                    $this->isController($this->arg);
+                    break;
+                case 'm:controller':
                     $this->isController($this->arg);
                     break;
                 case 'make:c':

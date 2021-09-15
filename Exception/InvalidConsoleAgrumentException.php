@@ -11,10 +11,11 @@
 namespace Nigatedev\Framework\Console\Exception;
 
 /**
- * Console Exception
+ * Console(CLI) application
  *
  * @author Abass Ben Cheik <abass@todaysdev.com>
  */
-class ConsoleException extends \Exception
-{
-}
+ class InvalidConsoleArgumentException extends \InvalidArgumentException
+ {
+ }
+ 

@@ -71,7 +71,7 @@ class Colors
     */
     public static function successTemp($message)
     {
-        return  "\033[42mSUCCESS\033[0m " . self::success($message);
+        echo  "\033[42mSUCCESS\033[0m " . self::success($message);
     }
    
    /**
@@ -143,7 +143,7 @@ class Colors
     */
     public static function errorTemp($message)
     {
-        return  "\033[41mERROR\033[0m " . self::error($message);
+        echo "\033[41mERROR\033[0m " . self::error($message);
     }
     
    /**
