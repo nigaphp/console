@@ -11,10 +11,10 @@
 namespace Nigatedev\Framework\Console\Exception;
 
 /**
- * Console Exception
+ * Console(CLI) interface exception
  *
  * @author Abass Ben Cheik <abass@todaysdev.com>
  */
-class ConsoleException extends \Exception implements InterfaceException
+interface InterfaceException extends \Throwable
 {
 }

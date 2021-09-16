@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /*
  * This file is part of the Nigatedev framework package.
  *
@@ -10,7 +10,7 @@
 
 namespace Nigatedev\Framework\Console;
 
-use Nigatedev\Framework\Console\Exception\InvalidConsoleArgumentException;
+use Nigatedev\Framework\Console\Exception\InvalidArgumentException;
 use Nigatedev\FrameworkBundle\Application\Configuration;
 use Nigatedev\Framework\Console\Maker\Make;
 
@@ -21,20 +21,26 @@ use Nigatedev\Framework\Console\Maker\Make;
  */
 class Console
 {
-     
+     /**
+      * Console main class
+      *
+      * @param array[] $cliApp
+      *
+      * @return void
+      */
     public function __construct($cliApp)
     {
         if (empty($cliApp)) {
-            throw new InvalidConsoleArgumentException("Invalid argument:");
+            throw new InvalidArgumentException("Invalid argument:");
         }
          
         if (isset($cliApp[1])) {
-            if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $cliApp[1])) {
+            $command = $cliApp[1];
+            if (preg_grep("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $command)) {
                 (new Make(
                     ["controller" =>  Configuration::getAppConfig()["controller"]]
                 ))->make($cliApp);
             }
         }
-        // exit;
     }
 }

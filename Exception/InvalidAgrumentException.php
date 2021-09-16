@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /*
  * This file is part of the Nigatedev framework package.
  *
@@ -11,10 +11,10 @@
 namespace Nigatedev\Framework\Console\Exception;
 
 /**
- * Console(CLI) application
+ * Console(CLI) invalid argument exception
  *
  * @author Abass Ben Cheik <abass@todaysdev.com>
  */
-class InvalidConsoleArgumentException extends \InvalidArgumentException
+class InvalidArgumentException extends \InvalidArgumentException implements InterfaceException
 {
 }

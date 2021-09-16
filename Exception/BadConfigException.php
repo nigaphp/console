@@ -11,10 +11,10 @@
 namespace Nigatedev\Framework\Console\Exception;
 
 /**
- * Console Exception
+ * Console(CLI) invalid argument exception
  *
  * @author Abass Ben Cheik <abass@todaysdev.com>
  */
-class ConsoleException extends \Exception implements InterfaceException
+class BadConfigException extends \Exception implements InterfaceException
 {
 }

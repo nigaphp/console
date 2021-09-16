@@ -8,9 +8,10 @@ namespace Nigatedev\Framework\Console\Maker\Maker;
 
 use Nigatedev\Framework\Console\Colors;
 use Nigatedev\FrameworkBundle\Application\Configuration as AppConfig;
+use Nigatedev\Framework\Console\Exception\BadConfigException;
 
 /**
-* ControllerMaker
+* Controller class maker
 *
 * @author Abass Ben Cheik <abass@todaysdev.com>
 */
@@ -121,7 +122,7 @@ class ControllerMaker
                 $templateExtension = ".twig";
             }
         } else {
-            die("Fatal: bad template configuration");
+            throw new BadConfigException("Unacceptable templating configuration");
         }
         
         $loaderFile = $this->rootDir."/config/loader.php";
