@@ -36,7 +36,7 @@ class Console
          
         if (isset($cliApp[1])) {
             $command = $cliApp[1];
-            if (preg_grep("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $command)) {
+            if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $command)) {
                 (new Make(
                     ["controller" =>  Configuration::getAppConfig()["controller"]]
                 ))->make($cliApp);
