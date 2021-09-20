@@ -43,12 +43,14 @@ class ControllerMaker
   */
     private $rootDir;
 
-    public function __construct($controller)
+    public function __construct($commands, $config)
     {
-        $prefixDir = dirname(__DIR__, 5);
         
-        $this->rootDir = str_replace("../", "", $prefixDir.$controller['root_dir']);
-        $this->dirName = str_replace("../", "/", $this->rootDir.$controller["dir"]);
+        $prefixDir = dirname(__DIR__, 5);
+        $this->rootDir = str_replace("../", "/", $prefixDir.$config["controller"]['root_dir']);
+        $this->dirName = str_replace("../", "/", $prefixDir.$config["controller"]["dir"]);
+    
+        $this->isController($commands);
     }
 
   /**
@@ -157,5 +159,27 @@ class ControllerMaker
     public function lowerAndReplace($find, $replace, $content)
     {
         return strtolower(str_replace($find, $replace, $content));
+    }
+    
+    
+    /**
+     * @param array[] $controller
+     *
+     * @return void
+     */
+    public function isController($controller)
+    {
+        if (isset($controller[2]) && !isset($controller[3])) {
+             $controllerName = $controller[2];
+             $warning = strtoupper(readline(Colors::temp("INFO", "Generate", Colors::info("[". $controllerName ."]") . " Controller ? (".Colors::success("Y")."/".Colors::danger("N").", YES/NO) ")));
+            if ($warning === "Y") {
+                $this->makeController($controller[2]);
+            } else {
+                echo Colors::danger("N")." Canceled !";
+            }
+        } else {
+            $controllerName = readline(Colors::temp("INFO", "Controller name E.g:", Colors::info('HomeController')));
+            $this->makeController($controllerName);
+        }
     }
 }

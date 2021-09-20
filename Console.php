@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php
 /*
  * This file is part of the Nigatedev framework package.
  *
@@ -7,6 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types = 1);
 
 namespace Nigatedev\Framework\Console;
 
@@ -21,25 +23,28 @@ use Nigatedev\Framework\Console\Maker\Make;
  */
 class Console
 {
+    protected $config = [];
      /**
-      * Console main class
-      *
-      * @param array[] $cliApp
+      * @param array[] $commands
       *
       * @return void
       */
-    public function __construct($cliApp)
+    public function __construct($commands)
     {
-        if (empty($cliApp)) {
-            throw new InvalidArgumentException("Invalid argument:");
+        $this->config = Configuration::getAppConfig();
+        
+        // Handling empty command, redirect to Help::class
+        if (isset($commands[0])
+             && !isset($commands[1])) {
+            return (new Make(["help" => "default"], []));
         }
          
-        if (isset($cliApp[1])) {
-            $command = $cliApp[1];
-            if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $command)) {
+        if (isset($commands[1])) {
+            if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $commands[1])) {
                 (new Make(
-                    ["controller" =>  Configuration::getAppConfig()["controller"]]
-                ))->make($cliApp);
+                    ["controller" => $commands],
+                    ["controller" =>  $this->config["controller"]]
+                ));
             }
         }
     }

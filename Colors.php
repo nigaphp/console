@@ -81,8 +81,11 @@ class Colors
     *
     * @return string
     */
-    public static function info($message)
+    public static function info($message, $title = null)
     {
+        if ($title !== null) {
+            return  "\033[36m$title\033[0m $message";
+        }
         return  "\033[36m$message\033[0m";
     }
    
