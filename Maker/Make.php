@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Nigatedev\Framework\Console\Maker;
 
-use Nigatedev\Framework\Console\Maker\Maker\ControllerMaker;
+use Nigatedev\Framework\Console\Maker\Controller\ControllerMaker;
 use Nigatedev\Framework\Console\Helper\Help;
 use Nigatedev\Framework\Console\Colors;
 

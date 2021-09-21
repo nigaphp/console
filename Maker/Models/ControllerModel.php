@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Nigatedev\FrameworkBundle\Controller\Controller;
+use Nigatedev\FrameworkBundle\Http\Request;
 
 class ControllerModel extends Controller
 {

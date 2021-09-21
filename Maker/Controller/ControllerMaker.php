@@ -4,7 +4,7 @@
 *
 * (c) Abass Ben Cheik <abass@todaysdev.com>
 */
-namespace Nigatedev\Framework\Console\Maker\Maker;
+namespace Nigatedev\Framework\Console\Maker\Controller;
 
 use Nigatedev\Framework\Console\Colors;
 use Nigatedev\FrameworkBundle\Application\Configuration as AppConfig;
