@@ -137,7 +137,7 @@ class ControllerMaker
             file_put_contents("{$this->dirName}/{$cName}.php", str_replace(["ControllerModel", "index"], [$cName, $this->lowerAndReplace("Controller", "", $cName)], $this->getModel("/ControllerModel.php")));
             fopen($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", "{$cName}{$templateExtension}"), "w+");
             file_put_contents($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", "{$cName}{$templateExtension}"), $this->getModel($templateModel));
-            $loader = str_replace("];", "  '/". $this->lowerAndReplace("Controller", "", $cName)."' => [\\App\\Controller\\". $cName."::class, '".$this->lowerAndReplace("Controller", "", $cName)."'],\n];", file_get_contents($loaderFile));
+            $loader = str_replace("];", " "."\\App\\Controller\\". $cName."::class,\n];", file_get_contents($loaderFile));
             file_put_contents($loaderFile, $loader);
             $this->success["cname"] = "Your $cName was created successfully !";
             return true;
