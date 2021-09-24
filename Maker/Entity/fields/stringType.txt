@@ -1,0 +1,18 @@
+    
+    /**
+     * @ORM\Column(type="string", length=225)
+     */
+     private $model;
+     
+    public function getModel(): ?string
+    {
+        return $this->model;
+    }
+
+    public function setModel(string $model): self
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+    

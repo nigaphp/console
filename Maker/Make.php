@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Nigatedev\Framework\Console\Maker;
 
 use Nigatedev\Framework\Console\Maker\Controller\ControllerMaker;
+use Nigatedev\Framework\Console\Maker\Entity\EntityMaker;
 use Nigatedev\Framework\Console\Helper\Help;
 use Nigatedev\Framework\Console\Colors;
 
@@ -23,6 +24,14 @@ use Nigatedev\Framework\Console\Colors;
  */
 class Make
 {
+    /**
+     * Constructor
+     *
+     * @param array $commands
+     * @param array $config
+     *
+     * @return mixed
+     */
     public function __construct($commands, $config)
     {
         if (isset($commands["help"])) {
@@ -31,6 +40,10 @@ class Make
         
         if (isset($commands["controller"])) {
             return (new ControllerMaker($commands["controller"], $config));
+        }
+        
+        if (isset($commands["entity"])) {
+            return (new EntityMaker($commands["entity"], $config));
         }
     }
 }

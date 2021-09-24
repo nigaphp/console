@@ -1,0 +1,19 @@
+   
+    /**
+     * @ORM\Column(type="integer")
+     */
+     private $model;
+     
+     
+    public function getModel(): ?int
+    {
+        return $this->model;
+    }
+
+    public function setModel(int $model): self
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+    

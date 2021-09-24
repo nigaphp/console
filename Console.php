@@ -15,37 +15,34 @@ namespace Nigatedev\Framework\Console;
 use Nigatedev\Framework\Console\Exception\InvalidArgumentException;
 use Nigatedev\FrameworkBundle\Application\Configuration;
 use Nigatedev\Framework\Console\Maker\Make;
+use Nigatedev\Framework\Console\Colors;
 
 /**
- * Console(CLI) application
- *
- * @author Abass Ben Cheik <abass@todaysdev.com>
- */
-class Console
+* Entry point for the console application
+*
+* @author Abass Ben Cheik <abass@todaysdev.com>
+*/
+final class Console
 {
-    protected $config = [];
-     /**
-      * @param array[] $commands
-      *
-      * @return void
-      */
     public function __construct($commands)
     {
-        $this->config = Configuration::getAppConfig();
-        
-        // Handling empty command, redirect to Help::class
-        if (isset($commands[0])
-             && !isset($commands[1])) {
-            return (new Make(["help" => "default"], []));
-        }
-         
-        if (isset($commands[1])) {
-            if (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $commands[1])) {
-                (new Make(
-                    ["controller" => $commands],
-                    ["controller" =>  $this->config["controller"]]
-                ));
-            }
+        $config = Configuration::getAppConfig();
+
+        // Handling empty command, redirect to helper
+        if (!isset($commands[1])) {
+            (new Make(["help" => "default"], []));
+        } elseif (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $commands[1])) {
+            (new Make(
+                ["controller" => $commands],
+                $config["controller"]
+            ));
+        } elseif (preg_match("/(^m:e$)|(^make:e$)|(^make:entity$)|(^m:entity$)/", $commands[1])) {
+            (new Make(
+                ["entity"  => $commands],
+                $config["entity"]
+            ));
+        } else {
+            die(Colors::danger("Command unknown\n"));
         }
     }
 }

@@ -1,27 +1,29 @@
 <?php
-/**
-* This file is part of the Nigatedev PHP framework package
-*
-* (c) Abass Ben Cheik <abass@todaysdev.com>
-*/
+/*
+ * This file is part of the Nigatedev framework package.
+ *
+ * (c) Abass Ben Cheik <abass@todaysdev.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types = 1);
+
 namespace Nigatedev\Framework\Console\Maker\Controller;
 
 use Nigatedev\Framework\Console\Colors;
 use Nigatedev\FrameworkBundle\Application\Configuration as AppConfig;
 use Nigatedev\Framework\Console\Exception\BadConfigException;
+use Nigatedev\Framework\Console\Maker\AbstractMaker;
 
 /**
 * Controller class maker
 *
 * @author Abass Ben Cheik <abass@todaysdev.com>
 */
-class ControllerMaker
+class ControllerMaker extends AbstractMaker
 {
-
-  /**
-  * @var string
-  */
-    private string $className;
 
   /**
   * @var string[] $error
@@ -33,30 +35,23 @@ class ControllerMaker
   */
     private $success = [];
 
-  /**
-  * @var string
-  */
-    private $dirName;
-
-  /**
-  * @var string
-  */
-    private $rootDir;
-
+    /**
+     * @param array $commands
+     * @param array $config
+     *
+     * @return void
+     */
     public function __construct($commands, $config)
     {
+        parent::__construct($commands, $config);
         
-        $prefixDir = dirname(__DIR__, 5);
-        $this->rootDir = str_replace("../", "/", $prefixDir.$config["controller"]['root_dir']);
-        $this->dirName = str_replace("../", "/", $prefixDir.$config["controller"]["dir"]);
-    
         $this->isController($commands);
     }
 
   /**
   * @param string $className
   *
-  * @return void
+  * @return string
   */
     public function makeController($className)
     {
@@ -91,20 +86,7 @@ class ControllerMaker
     }
 
   /**
-  * Get model controller content
-  *
-  * @param string $model
-  *
-  * @return string
-  */
-    public function getModel($model)
-    {
-        $model = file_get_contents(dirname(__DIR__)."/Models/".$model);
-        return $model;
-    }
-
-  /**
-  * Final controller class generator
+  * Final controller and view generator
   *
   * @param string $cName   The controller to generate class name
   *
@@ -112,41 +94,81 @@ class ControllerMaker
   */
     public function make($cName)
     {
-        $defaultTemplate = AppConfig::getDefaultTemplateConfig();
-        
-        if (array_key_exists("default_template", $defaultTemplate)) {
-            $key = $defaultTemplate["default_template"];
-            if ($key === "diyan") {
-                $templateModel = "/DiyanModel.php";
-                $templateExtension = ".php";
-            } else {
-                $templateModel = "/TwigModel.php";
-                $templateExtension = ".twig";
-            }
-        } else {
-            throw new BadConfigException("Unacceptable templating configuration");
+        if (!is_dir($this->getDir())) {
+            mkdir($this->getDir(), 0777, true);
         }
         
-        $loaderFile = $this->rootDir."/config/loader.php";
-        
-        if (is_file("{$this->dirName}/{$cName}.php")) {
+        $controller = $this->getDir().self::DSP.$cName."php";
+        if (is_file($controller)) {
             $this->error["cname"] = "Can't create an existence controller class ".$cName;
             return false;
         }
-        if (is_dir($this->dirName) && is_file(dirname(__DIR__)."/Models/ControllerModel.php")) {
-            file_put_contents("{$this->dirName}/{$cName}.php", str_replace(["ControllerModel", "index"], [$cName, $this->lowerAndReplace("Controller", "", $cName)], $this->getModel("/ControllerModel.php")));
-            fopen($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", "{$cName}{$templateExtension}"), "w+");
-            file_put_contents($this->rootDir."/views/".$this->lowerAndReplace("Controller", "", "{$cName}{$templateExtension}"), $this->getModel($templateModel));
-            $loader = str_replace("];", " "."\\App\\Controller\\". $cName."::class,\n];", file_get_contents($loaderFile));
-            file_put_contents($loaderFile, $loader);
-            $this->success["cname"] = "Your $cName was created successfully !";
-            return true;
+        
+        if ($this->createControllerClass($cName)
+            && $this->createViewFile($cName)
+            && $this->loaderUploader($cName)
+        ) {
+                $this->success["cname"] = "Your $cName was created successfully !";
+                return true;
         } else {
-            $this->error["cname"] = "Can't find ".$this->dirName." directory";
+            $this->error["cname"] = "Can't find ".$this->getDir()." directory";
             return false;
         }
-            $this->error["cname"] = "Unknown error: when try to create a controller";
-        return false;
+    }
+    
+    /**
+     * @param string $viewName
+     *
+     * @return int
+     */
+    public function createViewFile($viewName)
+    {
+        $defaultTemplate =  AppConfig::getAppConfig();
+        
+        if ($defaultTemplate["default_template"] === "diyan") {
+            $viewModel = "Diyan";
+            $viewExtension = ".php";
+        } else {
+            $viewModel = "Twig";
+            $viewExtension = ".twig";
+        }
+        
+        $root = $this->getRoot()."/views/";
+        $view = $viewName.$viewExtension;
+        return file_put_contents(
+            $root.$this->lowerAndReplace("Controller", "", $view),
+            $this->getModel($viewModel)
+        );
+    }
+    
+    /**
+     * @param string $cName
+     *
+     * @return int
+     */
+    public function createControllerClass($cName)
+    {
+        $controllerName = $this->getDir().self::DSP."$cName.php";
+        
+        $find = ["ControllerModel", "index"];
+        $replace = [$cName, $this->lowerAndReplace("Controller", "", $cName)];
+        $content = $this->getModel("Controller");
+        return file_put_contents($controllerName, \str_replace($find, $replace, $content));
+    }
+    
+    /**
+     * @param string $cName
+     *
+     * @return int
+     */
+    public function loaderUploader($cName)
+    {
+            $loaderFile = $this->getRoot()."/config/loader.php";
+            $find = "];";
+            $replaceBy = "    \\App\\Controller\\". $cName."::class,\n];";
+            
+            $loaderContent = str_replace($find, $replaceBy, \file_get_contents($loaderFile));
+            return file_put_contents($loaderFile, $loaderContent);
     }
     
     /**
@@ -158,10 +180,9 @@ class ControllerMaker
      */
     public function lowerAndReplace($find, $replace, $content)
     {
-        return strtolower(str_replace($find, $replace, $content));
+        return strtolower(\str_replace($find, $replace, $content));
     }
-    
-    
+
     /**
      * @param array[] $controller
      *
@@ -170,8 +191,8 @@ class ControllerMaker
     public function isController($controller)
     {
         if (isset($controller[2]) && !isset($controller[3])) {
-             $controllerName = $controller[2];
-             $warning = strtoupper(readline(Colors::temp("INFO", "Generate", Colors::info("[". $controllerName ."]") . " Controller ? (".Colors::success("Y")."/".Colors::danger("N").", YES/NO) ")));
+             $controllerName = (string)$controller[2];
+             $warning = strtoupper(readline(Colors::temp("INFO", "Generate[", Colors::info($controllerName) . "] Controller ? (".Colors::success("Y")."/".Colors::danger("N").", YES/NO) ")));
             if ($warning === "Y") {
                 $this->makeController($controller[2]);
             } else {

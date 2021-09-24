@@ -22,13 +22,13 @@ use Nigatedev\Framework\Console\Colors;
 class Help
 {
     /**
-     * @param array[]|string $help
+     * @param array $commands
+     * @param array $config
      *
      * @return mixed
      */
     public function __construct($commands, $config)
     {
-        var_dump($commands);
         if ($commands === "default") {
             $this->defaultHelp();
             exit(1);

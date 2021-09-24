@@ -1,10 +1,13 @@
 <?php
 /*
- * This file is part of the Nigatedev PHP framework package
+ * This file is part of the Nigatedev framework package.
  *
- *  (c) Abass Ben Cheik <abass@todaysdev.com>
+ * (c) Abass Ben Cheik <abass@todaysdev.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-   
+
 namespace Nigatedev\Framework\Console;
 
 use Nigatedev\Framework\Console\Exception\ConsoleException;
@@ -47,7 +50,7 @@ class Colors
             break;
         }
         
-        echo($temp);
+        return $temp;
     }
    
    /**
@@ -71,7 +74,7 @@ class Colors
     */
     public static function successTemp($message)
     {
-        echo  "\033[42mSUCCESS\033[0m " . self::success($message);
+        return  "\033[42mSUCCESS\033[0m " . self::success($message);
     }
    
    /**
@@ -108,7 +111,7 @@ class Colors
     *
     * @return string
     */
-    public static function warning($message)
+    public static function warring($message)
     {
         return  "\033[33m$message\033[0m";
     }
@@ -122,7 +125,7 @@ class Colors
     */
     public static function warningTemp($message)
     {
-        return  "\033[43mWARNING\033[0m " . self::warning($message);
+        return  "\033[43mWARNING\033[0m " . self::warring($message);
     }
    
    /**
@@ -146,7 +149,7 @@ class Colors
     */
     public static function errorTemp($message)
     {
-        echo "\033[41mERROR\033[0m " . self::error($message);
+        return "\033[41mERROR\033[0m " . self::error($message);
     }
     
    /**
