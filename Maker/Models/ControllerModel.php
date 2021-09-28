@@ -7,7 +7,7 @@ use Nigatedev\FrameworkBundle\Attributes\Route;
 
 class ControllerModel extends AbstractController
 {
-    #[Route('/index')]
+    #[Route('/index', name:'index')]
     public function index()
     {
         return $this->render("index", [
