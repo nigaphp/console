@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use Nigatedev\FrameworkBundle\Controller\AbstractController;
 use Nigatedev\FrameworkBundle\Attributes\Route;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Nigatedev\FrameworkBundle\Http\Request;
 
 class ControllerModel extends AbstractController
 {
