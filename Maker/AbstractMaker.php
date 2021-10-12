@@ -56,13 +56,12 @@ abstract class AbstractMaker
     {
         $this->commands = $commands;
         $this->config = $config;
-
     }
 
     /**
      * @return string
      */
-    public function getDir() 
+    public function getDir()
     {
         $docRoot = dirname(__DIR__, 4).$this->config['dir'];
         return  str_replace("../", "/", $docRoot);
@@ -71,7 +70,7 @@ abstract class AbstractMaker
     /**
      * @return string
      */
-    public function getRoot() 
+    public function getRoot()
     {
         return dirname(__DIR__, 4);
     }
@@ -79,31 +78,30 @@ abstract class AbstractMaker
     /**
      * @return string
      */
-    public function getCacheDir() 
+    public function getCacheDir()
     {
         return $this->getRoot()."/var/cache/dev";
     }
     
     /**
      * @var string $model
-     * 
+     *
      * @return string
      */
-    public function getModel($model) 
+    public function getModel($model)
     {
-      $template = __DIR__.self::DSP."Models".self::DSP.$model."Model.php";
+        $template = __DIR__.self::DSP."Models".self::DSP.$model."Model.php";
       
-      if (file_exists($template)) {
-         return file_get_contents($template);
-      } else {
-          die(Colors::danger("Model not found"));
-      }
-      
+        if (file_exists($template)) {
+            return file_get_contents($template);
+        } else {
+            die(Colors::danger("Model not found"));
+        }
     }
     
     /**
      * @var string $type
-     * 
+     *
      * @return string
      */
     public function getField(string $type)
@@ -114,14 +112,14 @@ abstract class AbstractMaker
     
     /**
      * @var string $model
-     * 
+     *
      * @return string
      */
-    public function replaceModel($model, $file) 
+    public function replaceModel($model, $file)
     {
         $toReplace = str_replace(
             ["model", "setModel", "getModel"],
-            [$model, "set".ucfirst($model), "get".ucfirst($model)], 
+            [$model, "set".ucfirst($model), "get".ucfirst($model)],
             $file
         );
         

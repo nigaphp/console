@@ -24,95 +24,65 @@ use Nigatedev\Framework\Console\Maker\AbstractMaker;
 */
 class ControllerMaker extends AbstractMaker
 {
-
-  /**
-  * @var string[] $error
-  */
-    private $error = [];
-
-  /**
-  * @var string[] $success
-  */
-    private $success = [];
-
     /**
      * @param array $commands
      * @param array $config
      *
      * @return void
      */
-    public function __construct($commands, $config)
+    public function __construct(array $commands, array $config)
     {
         parent::__construct($commands, $config);
         
         $this->isController($commands);
     }
-
-  /**
-  * @param string $className
-  *
-  * @return string
-  */
-    public function makeController($className)
-    {
-        if ($this->isSafeClassName($className) && $this->make($className)) {
-               return Colors::successTemp($this->success["cname"]);
-        } else {
-            return Colors::errorTemp($this->error["cname"]);
-        }
-    }
-
+    
   /**
   * Check to see if controller class name is safe
   *
   * @param string $className
   *
-  * @return bool
+  * @return mixed
   */
-    public function isSafeClassName($className)
+    public function isSafeClassName(string $className)
     {
-        $className = trim($className);
-        preg_match('/^(\d)|(\d)$/', $className, $match);
-        if ($match) {
-            $this->error["cname"] = "Controllers class name couldn't contains any special chars from the starting and must ended with the prefix 'Controller'!";
-            return false;
-        }
-        if (preg_match("/^\w+(Controller)$/", $className)) {
-            return true;
+        $className = trim(\ucfirst($className));
+        if (preg_match('/^(\d)/', $className) || !preg_match("/Controller$/", $className)) {
+            die(Colors::danger("Couldn't create controller, Bad controllers class name"));
         } else {
-            $this->error["cname"] = "Bad controllers class name, Note: all controller must ended with 'Controller' prefix. ";
-            return false;
+            $this->make($className);
         }
     }
 
   /**
   * Final controller and view generator
   *
-  * @param string $cName   The controller to generate class name
+  * @param string $className   The controller to generate class name
   *
   * @return bool
   */
-    public function make($cName)
+    public function make($className)
     {
         if (!is_dir($this->getDir())) {
             mkdir($this->getDir(), 0777, true);
         }
         
-        $controller = $this->getDir().self::DSP.$cName."php";
-        if (is_file($controller)) {
-            $this->error["cname"] = "Can't create an existence controller class ".$cName;
-            return false;
+        $controller = $this->getDir().self::DSP.$className.".php";
+        
+        if (file_exists($controller)) {
+            die(Colors::danger("Can't create an existence controller class $className"));
         }
         
-        if ($this->createControllerClass($cName)
-            && $this->createViewFile($cName)
-            && $this->loaderUploader($cName)
-        ) {
-                $this->success["cname"] = "Your $cName was created successfully !";
-                return true;
+        $find = ["ControllerModel", "index"];
+        $replace = [$className, $this->lowerAndReplace("Controller", "", $className)];
+        $content = $this->getModel("Controller");
+        file_put_contents($controller, \str_replace($find, $replace, $content));
+        
+        if ($this->createViewFile($className)
+            && $this->uploadLoader($className)) {
+            echo Colors::success("Your $className was created successfully !");
         } else {
-            $this->error["cname"] = "Can't find ".$this->getDir()." directory";
-            return false;
+            die(Colors::danger("Can't find ".$this->getDir()." directory"));
         }
     }
     
@@ -142,30 +112,15 @@ class ControllerMaker extends AbstractMaker
     }
     
     /**
-     * @param string $cName
+     * @param string $className
      *
      * @return int
      */
-    public function createControllerClass($cName)
-    {
-        $controllerName = $this->getDir().self::DSP."$cName.php";
-        
-        $find = ["ControllerModel", "index"];
-        $replace = [$cName, $this->lowerAndReplace("Controller", "", $cName)];
-        $content = $this->getModel("Controller");
-        return file_put_contents($controllerName, \str_replace($find, $replace, $content));
-    }
-    
-    /**
-     * @param string $cName
-     *
-     * @return int
-     */
-    public function loaderUploader($cName)
+    public function uploadLoader($className)
     {
             $loaderFile = $this->getRoot()."/config/loader.php";
             $find = "];";
-            $replaceBy = "    \\App\\Controller\\". $cName."::class,\n];";
+            $replaceBy = "    \\App\\Controller\\". $className."::class,\n];";
             
             $loaderContent = str_replace($find, $replaceBy, \file_get_contents($loaderFile));
             return file_put_contents($loaderFile, $loaderContent);
@@ -188,19 +143,19 @@ class ControllerMaker extends AbstractMaker
      *
      * @return void
      */
-    public function isController($controller)
+    public function isController(array $controller)
     {
         if (isset($controller[2]) && !isset($controller[3])) {
-             $controllerName = (string)$controller[2];
+             $controllerName = $controller[2];
              $warning = strtoupper(readline(Colors::temp("INFO", "Generate[", Colors::info($controllerName) . "] Controller ? (".Colors::success("Y")."/".Colors::danger("N").", YES/NO) ")));
             if ($warning === "Y") {
-                $this->makeController($controller[2]);
+                $this->isSafeClassName($controllerName);
             } else {
-                echo Colors::danger("N")." Canceled !";
+                die(Colors::danger("N")." Canceled !");
             }
         } else {
             $controllerName = readline(Colors::temp("INFO", "Controller name E.g:", Colors::info('HomeController')));
-            $this->makeController($controllerName);
+            $this->isSafeClassName($controllerName);
         }
     }
 }
