@@ -94,12 +94,22 @@ class EntityMaker extends AbstractMaker
         }
         
         $entityCacheFile = $entityCacheDir.DIRECTORY_SEPARATOR.strtolower("cache".$className);
+        if (file_exists($entityCacheFile)) {
+            if (readline(Colors::warring("Warring: your entity exist! overwrite (Y\N) \n")) === strtoupper("Y")) {
+                unlink($entityCacheFile);
+            } else {
+                die(Colors::info("Abort ! \n"));
+            }
+        }
         $fields = [];
         
         while (true) {
             $newField = trim(readline(Colors::info("\nTape new field or <return> to stop\n⏩ ")));
             if (strlen($newField) < 2) {
-                echo(Colors::warring("Done ! \n"));
+                $entity = str_replace(["//{{EntityModelBody}}//", "ModelEntity", "model"], [file_get_contents($entityCacheFile), $className, str_replace("entity", "", strtolower($className))], $entityModel);
+                file_put_contents($this->getDir()."/".ucfirst($className.".php"), $entity);
+                unlink($entityCacheFile);
+                echo(Colors::success("\nDone ! \n\n"));
                 break;
             } else {
                 $fields["name"] = $newField;
@@ -136,6 +146,6 @@ class EntityMaker extends AbstractMaker
      */
     public function replaceByFieldName($fieldName, $fieldType)
     {
-        return $this->replaceModel($fieldName, $this->getField("integer"));
+        return $this->replaceModel($fieldName, $this->getField($fieldType));
     }
 }

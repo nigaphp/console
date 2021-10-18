@@ -1,6 +1,6 @@
     
     /**
-     * @ORM\Column(type="string", length=225)
+     * @ORM\Column(type="string")
      */
      private $model;
      
