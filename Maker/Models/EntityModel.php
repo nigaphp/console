@@ -17,5 +17,9 @@ class ModelEntity
      */
     private $id;
     
+    public function getId(): srting
+    {
+        return $this->id;
+    }
     //{{EntityModelBody}}//
 }
