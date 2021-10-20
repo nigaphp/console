@@ -17,7 +17,7 @@ class ModelEntity
      */
     private $id;
     
-    public function getId(): srting
+    public function getId(): string
     {
         return $this->id;
     }
