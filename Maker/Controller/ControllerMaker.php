@@ -48,7 +48,7 @@ class ControllerMaker extends AbstractMaker
     {
         $className = trim(\ucfirst($className));
         if (preg_match('/^(\d)/', $className) || !preg_match("/Controller$/", $className)) {
-            die(Colors::danger("Couldn't create controller, Bad controllers class name"));
+            die(Colors::danger("Couldn't create controller, Bad controller class name"));
         } else {
             $this->make($className);
         }
@@ -154,7 +154,7 @@ class ControllerMaker extends AbstractMaker
                 die(Colors::danger("N")." Canceled !");
             }
         } else {
-            $controllerName = readline(Colors::temp("INFO", "Controller name E.g:", Colors::info('HomeController')));
+            $controllerName = readline(Colors::temp("INFO", "Controller name E.g:", Colors::info('HomeController ')));
             $this->isSafeClassName($controllerName);
         }
     }
