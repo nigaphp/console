@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nigatedev\Framework\Console\Helper;
 
 use Nigatedev\Framework\Console\Colors;
 
 /**
-* Command helper
-*
-* @author Abass Ben Cheik <abass@todaysdev.com>
-*/
+ * Command helper
+ *
+ * @author Abass Ben Cheik <abass@todaysdev.com>
+ */
 class Help
 {
     /**
@@ -34,7 +34,7 @@ class Help
             exit(1);
         }
     }
-    
+
     /**
      * Command line helper
      *
@@ -42,8 +42,12 @@ class Help
      */
     public function defaultHelp(): void
     {
-        echo Colors::info("\n------ Nigatedev Console(CLIA) ------\n\n");
-        echo Colors::info(" m:c or make:controller"). "                Create a controller\n";
-        echo Colors::info(" --help or -h"). "                          Show this help\n\n";
+        echo Colors::info("\n------ Nigatedev Console(CLI) ------\n\n");
+        echo Colors::info(" --help or -h") . "                          Show this help\n";
+        echo Colors::info(" m:c") . "                                   Create a controller\n";
+        echo Colors::info(" make:controller") . "                       shortcut: Create a controller\n";
+        echo Colors::info(" make:entity") . "                           Create new Entity\n";
+        echo Colors::info(" m:e") . "                                   shortcut: Create new Entity\n";
+        echo Colors::info(" run:dev") . "                               Start developement server on 8000 as default port\n";
     }
 }

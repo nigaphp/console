@@ -2,13 +2,13 @@
 /*
  * This file is part of the Nigatedev framework package.
  *
- * (c) Abass Ben Cheik <abass@todaysdev.com>
+ * (c) Abass Ben Cheik <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nigatedev\Framework\Console;
 
@@ -18,10 +18,10 @@ use Nigatedev\Framework\Console\Maker\Make;
 use Nigatedev\Framework\Console\Colors;
 
 /**
-* Entry point for the console application
-*
-* @author Abass Ben Cheik <abass@todaysdev.com>
-*/
+ * Entry point for the console application
+ *
+ * @author Abass Ben Cheik <abass@abassdev.com>
+ */
 final class Console
 {
     public function __construct($commands)
@@ -40,6 +40,11 @@ final class Console
             (new Make(
                 ["entity"  => $commands],
                 $config["entity"]
+            ));
+        } elseif (preg_match("/(^run:dev$)/", $commands[1])) {
+            (new Make(
+                ["server"  => $commands],
+                $config["server"]
             ));
         } else {
             die(Colors::danger("Command unknown\n"));
