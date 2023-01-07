@@ -29,7 +29,7 @@ final class Console
         $config = Configuration::getAppConfig();
 
         // Handling empty command, redirect to helper
-        if (!isset($commands[1])) {
+        if (!isset($commands[1]) || $commands[1] == '-h' || $commands[1] == '--help') {
             (new Make(["help" => "default"], []));
         } elseif (preg_match("/(^m:c$)|(^make:c$)|(^make:controller$)|(^m:controller$)/", $commands[1])) {
             (new Make(
