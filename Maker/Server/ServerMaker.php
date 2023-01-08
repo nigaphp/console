@@ -54,17 +54,33 @@ class ServerMaker extends AbstractMaker
      */
     public function make($commands)
     {
-        if (!array_key_exists("2", $commands)) {
-            exec("php -S " . $this->config['host'] . ":" . $this->config['port'] . " -t " . $this->config['publicPath']);
-        }
+        $this->runBash($commands);
     }
+
     /**
      * @param array $commands
      *
      * @return mixed
      */
-    public function runBash($bash)
+    public function runBash($commands)
     {
-        var_dump($bash);
+        $host = strval($this->config['host']);
+        $port = intval($this->config['port']);
+        $defaultPort = $port;
+
+        $sock = @fsockopen($host, $port, $err, $errMessage);
+        while (is_resource($sock)) {
+            $port++;
+            $sock = @fsockopen($host, $port, $err, $errMessage, 1);
+
+            if (!$sock) {
+                $input = readline(Colors::warningTemp('The port (' . $defaultPort . ') you are trying to connect is already in usage, do you want to connect to the following port ' . $port . ' instead? (Y/N) '));
+                if (strtoupper($input) === 'Y') {
+                    if (!array_key_exists("2", $commands)) {
+                        system("php -S " . $this->config['host'] . ":" . $port . " -t " . $this->config['publicPath']);
+                    }
+                }
+            }
+        }
     }
 }
