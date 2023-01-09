@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Nigatedev\Framework\Console;
 
-use Nigatedev\Framework\Console\Exception\InvalidArgumentException;
 use Nigatedev\FrameworkBundle\Application\Configuration;
 use Nigatedev\Framework\Console\Maker\Make;
 use Nigatedev\Framework\Console\Colors;
@@ -47,7 +46,33 @@ final class Console
                 $config["server"]
             ));
         } else {
-            die(Colors::danger("Command unknown\n"));
+            $this->unknownCMD();
         }
+    }
+
+    /**
+     * @return string
+     */
+    public static function unknownCMD()
+    {
+        return die(Colors::danger("Unknown command\n"));
+    }
+
+    /**
+     * @return string
+     */
+    public static function unknownError()
+    {
+        return die(Colors::danger("Unknown options\n"));
+    }
+
+    /**
+     * @param string $err
+     * 
+     * @return string
+     */
+    public static function errorMessage($err)
+    {
+        return die(Colors::danger($err . "\n"));
     }
 }
