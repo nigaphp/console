@@ -117,6 +117,8 @@ class ServerMaker extends AbstractMaker
                 } else {
                     Console::errorMessage('Invalid port value');
                 }
+            } else {
+                $this->runBash([]);
             }
         } else {
             Console::unknownError();
