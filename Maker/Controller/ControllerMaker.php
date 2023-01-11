@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of the Nigatedev framework package.
+ * This file is part of the Niga framework package.
  *
- * (c) Abass Ben Cheik <abass@abassdev.com>
+ * (c) Abass Dev <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,17 +10,17 @@
 
 declare(strict_types=1);
 
-namespace Nigatedev\Framework\Console\Maker\Controller;
+namespace Niga\Framework\Console\Maker\Controller;
 
-use Nigatedev\Framework\Console\Colors;
-use Nigatedev\FrameworkBundle\Application\Configuration as AppConfig;
-use Nigatedev\Framework\Console\Exception\BadConfigException;
-use Nigatedev\Framework\Console\Maker\AbstractMaker;
+use Niga\Framework\Console\Colors;
+use Niga\Framework\Application\Configuration as AppConfig;
+use Niga\Framework\Console\Exception\BadConfigException;
+use Niga\Framework\Console\Maker\AbstractMaker;
 
 /**
  * Controller class maker
  *
- * @author Abass Ben Cheik <abass@abassdev.com>
+ * @author Abass Dev <abass@abassdev.com>
  */
 class ControllerMaker extends AbstractMaker
 {

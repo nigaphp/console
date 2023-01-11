@@ -1,7 +1,7 @@
 <?php
 /*
- * This file is part of the Nigatedev framework package.
- * (c) Abass Ben Cheik <abass@abassdev.com>
+ * This file is part of the Niga framework package.
+ * (c) Abass Dev <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -9,16 +9,16 @@
 
 declare(strict_types=1);
 
-namespace Nigatedev\Framework\Console\Maker\Server;
+namespace Niga\Framework\Console\Maker\Server;
 
-use Nigatedev\Framework\Console\Colors;
-use Nigatedev\Framework\Console\Console;
-use Nigatedev\Framework\Console\Maker\AbstractMaker;
+use Niga\Framework\Console\Colors;
+use Niga\Framework\Console\Console;
+use Niga\Framework\Console\Maker\AbstractMaker;
 
 /**
  * Entity maker
  *
- * @author Abass Ben Cheik <abass@abassdev.com>
+ * @author Abass Dev <abass@abassdev.com>
  */
 class ServerMaker extends AbstractMaker
 {

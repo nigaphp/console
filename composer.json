@@ -1,24 +1,27 @@
 {
-    "name": "nigatedev/console",
-    "description": "Nigatedev framework (CLI) console application",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Nigatedev\\Framework\\Console\\": ""
-        }
-    },
-    "bin": [
-        "niga"
-        ],
-    "authors": [
-        {
-            "name": "Abass Ben Cheik",
-            "email": "cheikabassben@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "nigatedev/parser": "2.x-dev"
+  "name": "niga/console",
+  "description": "Niga console (CLI)",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Niga\\Framework\\Console\\": ""
     }
+  },
+  "bin": [
+    "niga"
+  ],
+  "authors": [
+    {
+      "name": "Abass Dev",
+      "email": "abass@abassdev.com",
+      "role": "Lead developer",
+      "homepage": "https://abassdev.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "nigatedev/parser": "2.x-dev",
+    "niga/framework": "2.x-dev"
+  }
 }

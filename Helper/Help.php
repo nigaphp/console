@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of the Nigatedev framework package.
+ * This file is part of the Niga framework package.
  *
- * (c) Abass Ben Cheik <abass@abassdev.com>
+ * (c) Abass Dev <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace Nigatedev\Framework\Console\Helper;
+namespace Niga\Framework\Console\Helper;
 
-use Nigatedev\Framework\Console\Colors;
+use Niga\Framework\Console\Colors;
 
 /**
  * Command helper
  *
- * @author Abass Ben Cheik <abass@abassdev.com>
+ * @author Abass Dev <abass@abassdev.com>
  */
 class Help
 {
@@ -42,7 +42,7 @@ class Help
      */
     public function defaultHelp(): void
     {
-        echo Colors::info("\n------ Nigatedev Console(CLI) ------\n\n");
+        echo Colors::info("\n------ Niga Console(CLI) ------\n\n");
         echo Colors::info(" --help or -h") . "                          Show this help\n";
         echo Colors::info(" m:c") . "                                   Create a controller\n";
         echo Colors::info(" make:controller") . "                       shortcut: Create a controller\n";

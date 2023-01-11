@@ -1,2 +1,3 @@
 # console
-Nigatedev framework (CLI) console application
+
+Niga framework (CLI) console application

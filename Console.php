@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of the Nigatedev framework package.
+ * This file is part of the Niga framework package.
  *
- * (c) Abass Ben Cheik <abass@abassdev.com>
+ * (c) Abass Dev <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,16 +10,16 @@
 
 declare(strict_types=1);
 
-namespace Nigatedev\Framework\Console;
+namespace Niga\Framework\Console;
 
-use Nigatedev\FrameworkBundle\Application\Configuration;
-use Nigatedev\Framework\Console\Maker\Make;
-use Nigatedev\Framework\Console\Colors;
+use Niga\Framework\Application\Configuration;
+use Niga\Framework\Console\Maker\Make;
+use Niga\Framework\Console\Colors;
 
 /**
  * Entry point for the console application
  *
- * @author Abass Ben Cheik <abass@abassdev.com>
+ * @author Abass Dev <abass@abassdev.com>
  */
 final class Console
 {

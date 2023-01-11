@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of the Nigatedev framework package.
+ * This file is part of the Niga framework package.
  *
- * (c) Abass Ben Cheik <abass@abassdev.com>
+ * (c) Abass Dev <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace Nigatedev\Framework\Console\Maker;
+namespace Niga\Framework\Console\Maker;
 
-use Nigatedev\Framework\Console\Colors;
+use Niga\Framework\Console\Colors;
 
 /**
  * Abstract maker
  *
- * @author Abass Ben Cheik <abass@todaysdev.com>
+ * @author Abass Dev <abass@todaysdev.com>
  */
 abstract class AbstractMaker
 {

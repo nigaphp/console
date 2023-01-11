@@ -1,21 +1,21 @@
 <?php
 /*
- * This file is part of the Nigatedev framework package.
+ * This file is part of the Niga framework package.
  *
- * (c) Abass Ben Cheik <abass@abassdev.com>
+ * (c) Abass Dev <abass@abassdev.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Nigatedev\Framework\Console;
+namespace Niga\Framework\Console;
 
-use Nigatedev\Framework\Console\Exception\ConsoleException;
+use Niga\Framework\Console\Exception\ConsoleException;
 
 /**
  * Console Colors
  *
- * @author Abass Ben Cheik <abass@abassdev.com>
+ * @author Abass Dev <abass@abassdev.com>
  */
 class Colors
 {
