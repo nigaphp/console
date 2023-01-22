@@ -21,7 +21,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "nigatedev/parser": "2.x-dev",
+    "niga/parser": "2.x-dev",
     "niga/framework": "2.x-dev"
   }
 }
